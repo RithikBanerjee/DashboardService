@@ -1,0 +1,29 @@
+﻿using Microsoft.EntityFrameworkCore;
+using LicenseService.Models;
+using Microsoft.AspNetCore.Http;
+using LicenseService.Middleware;
+
+namespace LicenseService.Data
+{
+    public class LicenseDbContext : DbContext
+    {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public LicenseDbContext(DbContextOptions<LicenseDbContext> options, IHttpContextAccessor httpContextAccessor)
+            : base(options)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public DbSet<Tenant> Tenants { get; set; }
+        // Add your other DbSets here, e.g.:
+        // public DbSet<License> Licenses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Add global query filter for multi-tenancy
+            // Example for License entity:
+            // modelBuilder.Entity<License>().HasQueryFilter(l => l.TenantId == TenantProvider.GetTenantId(_httpContextAccessor.HttpContext));
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}

@@ -1,0 +1,52 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace DocumentService.Data
+{
+    public class DocumentDbContext : DbContext
+    {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public DocumentDbContext(DbContextOptions<DocumentDbContext> options, IHttpContextAccessor httpContextAccessor)
+        : base(options)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public DbSet<Document> Documents { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var tenantId = _httpContextAccessor.HttpContext?.Items["TenantId"] as string;
+            modelBuilder.Entity<Document>().HasQueryFilter(d => d.TenantId == tenantId);
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public override int SaveChanges()
+        {
+            SetTenantId();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            SetTenantId();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void SetTenantId()
+        {
+            var tenantId = _httpContextAccessor.HttpContext?.Items["TenantId"] as string;
+            foreach (var entry in ChangeTracker.Entries<Document>())
+            {
+                if (entry.State == EntityState.Added && string.IsNullOrEmpty(entry.Entity.TenantId))
+                {
+                    entry.Entity.TenantId = tenantId;
+                }
+            }
+        }
+    }
+}

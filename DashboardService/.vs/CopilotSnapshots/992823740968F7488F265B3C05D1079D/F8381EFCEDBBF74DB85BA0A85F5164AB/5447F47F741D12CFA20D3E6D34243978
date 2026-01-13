@@ -1,0 +1,5 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<h2>Welcome to the Dashboard</h2>
+<p>Your not logged in to a specific dashboard.</p>

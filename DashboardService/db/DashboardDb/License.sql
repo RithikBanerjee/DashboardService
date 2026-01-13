@@ -1,0 +1,8 @@
+﻿CREATE TABLE Licenses (
+    Id NVARCHAR(450) NOT NULL PRIMARY KEY,
+    TenantId NVARCHAR(450) NOT NULL,
+    UserId NVARCHAR(450) NULL,
+    Status NVARCHAR(MAX) NULL,
+    ExpiryDate DATETIME2 NOT NULL,
+    FOREIGN KEY (TenantId) REFERENCES Tenants(Id)
+);

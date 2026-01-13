@@ -1,0 +1,55 @@
+﻿using MediatR;
+using Shared;
+using LicenseService.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace LicenseService.CQRS.Handlers
+{
+ public class ApplyForLicenseCommandHandler : IRequestHandler<Commands.ApplyForLicenseCommand, LicenseDto>
+ {
+ private readonly LicenseDbContext _db;
+ public ApplyForLicenseCommandHandler(LicenseDbContext db) { _db = db; }
+
+ public async Task<LicenseDto> Handle(Commands.ApplyForLicenseCommand request, CancellationToken cancellationToken)
+ {
+ var entity = new License
+ {
+ LicenseId = Guid.NewGuid().ToString(),
+ TenantId = request.TenantId,
+ UserId = request.UserId,
+ Status = "Pending",
+ ExpiryDate = DateTime.UtcNow.AddYears(1)
+ };
+ _db.Licenses.Add(entity);
+ await _db.SaveChangesAsync(cancellationToken);
+ return new LicenseDto
+ {
+ LicenseId = entity.LicenseId,
+ TenantId = entity.TenantId,
+ UserId = entity.UserId,
+ Status = entity.Status,
+ ExpiryDate = entity.ExpiryDate
+ };
+ }
+ }
+
+ public class GetLicenseByIdQueryHandler : IRequestHandler<Queries.GetLicenseByIdQuery, LicenseDto>
+ {
+ private readonly LicenseDbContext _db;
+ public GetLicenseByIdQueryHandler(LicenseDbContext db) { _db = db; }
+
+ public async Task<LicenseDto> Handle(Queries.GetLicenseByIdQuery request, CancellationToken cancellationToken)
+ {
+ var entity = await _db.Licenses.FirstOrDefaultAsync(l => l.LicenseId == request.LicenseId && l.TenantId == request.TenantId, cancellationToken);
+ if (entity == null) return null;
+ return new LicenseDto
+ {
+ LicenseId = entity.LicenseId,
+ TenantId = entity.TenantId,
+ UserId = entity.UserId,
+ Status = entity.Status,
+ ExpiryDate = entity.ExpiryDate
+ };
+ }
+ }
+}

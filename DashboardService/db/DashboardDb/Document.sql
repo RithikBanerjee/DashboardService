@@ -1,0 +1,8 @@
+﻿CREATE TABLE Documents (
+    Id INT NOT NULL IDENTITY PRIMARY KEY,
+    Name NVARCHAR(MAX) NULL,
+    Content NVARCHAR(MAX) NULL,
+    CreatedAt DATETIME2 NOT NULL,
+    TenantId NVARCHAR(450) NOT NULL,
+    FOREIGN KEY (TenantId) REFERENCES Tenants(Id)
+);

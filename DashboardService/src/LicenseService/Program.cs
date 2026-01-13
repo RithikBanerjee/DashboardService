@@ -1,0 +1,68 @@
+using DAL;
+using Hangfire;
+using LicenseService.Jobs;
+using LicenseService.Middleware;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers();
+
+// Add MediatR for CQRS
+builder.Services.AddMediatR(typeof(Program));
+
+// Add Hangfire for background jobs
+//builder.Services.AddHangfire(x => x.UseInMemoryStorage());
+builder.Services.AddHangfireServer();
+builder.Services.AddSingleton<LicenseRenewalJob>();
+
+// Add EF Core with SQL Server
+builder.Services.AddHttpContextAccessor(); // Add this for multi-tenancy
+builder.Services.AddDbContext<DashboardDbContext>(options =>
+ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// JWT Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+
+builder.Services.AddAuthorization();
+
+var app = builder.Build();
+
+app.UseAuthentication();
+app.UseTenantMiddleware(); // Add tenant extraction middleware
+app.UseAuthorization();
+
+// Hangfire dashboard (optional, for monitoring jobs)
+app.UseHangfireDashboard();
+
+// Schedule recurring job for license renewals
+RecurringJob.AddOrUpdate<LicenseRenewalJob>("license-renewal-job", job => job.ProcessRenewals(), Cron.Daily);
+
+app.MapControllers();
+
+app.Run();

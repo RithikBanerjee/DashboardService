@@ -1,0 +1,38 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using NotificationService.Model;
+
+namespace NotificationService.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Roles = "NotificationAPI")] // Require JWT authentication for all actions
+    public class NotificationController : ControllerBase
+    {
+        [HttpPost("sendemail")]
+        public IActionResult SendEmail([FromBody] EmailNotificationDto emailNotification)
+        {
+            if (string.IsNullOrWhiteSpace(emailNotification.To) || string.IsNullOrWhiteSpace(emailNotification.Subject) || string.IsNullOrWhiteSpace(emailNotification.Body))
+            {
+                return BadRequest("Missing required email fields.");
+            }
+            // TODO: Integrate with email sending service here
+            return Ok(new { Success = true, Type = "Email", To = emailNotification.To });
+        }
+
+        [HttpPost("sendsms")]
+        public IActionResult SendSms([FromBody] object smsNotification)
+        {
+            // Example: send SMS notification
+            return Ok(new { Success = true, Type = "SMS" });
+        }
+
+        [HttpPost("sendpush")]
+        public IActionResult SendPush([FromBody] object pushNotification)
+        {
+            // Example: send push notification
+            return Ok(new { Success = true, Type = "Push" });
+        }
+    }
+
+}

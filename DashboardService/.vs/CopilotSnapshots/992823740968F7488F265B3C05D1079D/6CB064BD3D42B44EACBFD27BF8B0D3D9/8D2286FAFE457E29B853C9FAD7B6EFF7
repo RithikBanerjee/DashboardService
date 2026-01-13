@@ -1,0 +1,18 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
+namespace NotificationService.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Roles = "NotificationAPI")] // Require JWT authentication for all actions
+    public class NotificationController : ControllerBase
+    {
+        [HttpPost]
+        public IActionResult SendNotification([FromBody] object notification)
+        {
+            // Example: send notification
+            return Ok(new { Success = true });
+        }
+    }
+}

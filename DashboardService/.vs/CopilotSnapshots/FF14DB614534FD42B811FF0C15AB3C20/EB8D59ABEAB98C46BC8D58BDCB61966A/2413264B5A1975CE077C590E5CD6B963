@@ -1,0 +1,40 @@
+﻿using MediatR;
+using Shared;
+
+namespace LicenseService.CQRS.Handlers
+{
+ public class ApplyForLicenseCommandHandler : IRequestHandler<Commands.ApplyForLicenseCommand, LicenseDto>
+ {
+ public async Task<LicenseDto> Handle(Commands.ApplyForLicenseCommand request, CancellationToken cancellationToken)
+ {
+ // Simulate license creation
+ var license = new LicenseDto
+ {
+ LicenseId = Guid.NewGuid().ToString(),
+ TenantId = request.TenantId,
+ UserId = request.UserId,
+ Status = "Pending",
+ ExpiryDate = DateTime.UtcNow.AddYears(1)
+ };
+ // TODO: Save to DB
+ return await Task.FromResult(license);
+ }
+ }
+
+ public class GetLicenseByIdQueryHandler : IRequestHandler<Queries.GetLicenseByIdQuery, LicenseDto>
+ {
+ public async Task<LicenseDto> Handle(Queries.GetLicenseByIdQuery request, CancellationToken cancellationToken)
+ {
+ // Simulate DB fetch
+ var license = new LicenseDto
+ {
+ LicenseId = request.LicenseId,
+ TenantId = request.TenantId,
+ UserId = "user1",
+ Status = "Active",
+ ExpiryDate = DateTime.UtcNow.AddYears(1)
+ };
+ return await Task.FromResult(license);
+ }
+ }
+}

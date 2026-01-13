@@ -1,0 +1,16 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using DocumentService.Data;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+namespace DocumentService.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize] // Require JWT authentication for all actions
+    public class DocumentController : ControllerBase
+    {
+
+    }
+}

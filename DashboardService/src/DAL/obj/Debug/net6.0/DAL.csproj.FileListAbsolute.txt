@@ -1,0 +1,12 @@
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\bin\Debug\net6.0\DAL.deps.json
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\bin\Debug\net6.0\DAL.dll
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\bin\Debug\net6.0\DAL.pdb
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\DAL.csproj.AssemblyReference.cache
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\DAL.AssemblyInfoInputs.cache
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\DAL.AssemblyInfo.cs
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\DAL.csproj.CoreCompileInputs.cache
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\DAL.dll
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\refint\DAL.dll
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\DAL.pdb
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\src\DAL\obj\Debug\net6.0\ref\DAL.dll

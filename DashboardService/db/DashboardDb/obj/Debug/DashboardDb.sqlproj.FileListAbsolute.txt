@@ -1,0 +1,6 @@
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\db\DashboardDb\bin\Debug\DashboardDb.dacpac
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\db\DashboardDb\bin\Debug\DashboardDb.dll
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\db\DashboardDb\bin\Debug\DashboardDb.pdb
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\db\DashboardDb\obj\Debug\DashboardDb.sqlproj.AssemblyReference.cache
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\db\DashboardDb\obj\Debug\DashboardDb.dll
+C:\Users\rithik.banerjee\Downloads\Assignment\DashboardService\db\DashboardDb\obj\Debug\DashboardDb.pdb

@@ -1,0 +1,25 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Shared;
+
+namespace LicenseService.Controllers
+{
+ [ApiController]
+ [Route("api/[controller]")]
+ public class LicenseController : ControllerBase
+ {
+ [HttpGet("{id}")]
+ public IActionResult GetLicense(string id)
+ {
+ // Example: fetch license by id
+ var license = new LicenseDto
+ {
+ LicenseId = id,
+ TenantId = "tenant1",
+ UserId = "user1",
+ Status = "Active",
+ ExpiryDate = DateTime.UtcNow.AddYears(1)
+ };
+ return Ok(license);
+ }
+ }
+}
