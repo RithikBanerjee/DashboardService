@@ -16,14 +16,14 @@ This solution demonstrates a microservices-based architecture for a license mana
 ```
 DashboardService/
  db/
- DashboardDb/ # SQL Server database scripts
+  DashboardDb/ # SQL Server database scripts
  src/
- ApiGateway/ # API Gateway using Ocelot
- Dashboard.Web/ # ASP.NET MVC frontend
- LicenseService/ # License microservice (CQRS, background jobs)
- DocumentService/ # Document microservice
- NotificationService/ # Notification microservice
- DAL/ # Data Access Layer for shared entities
+  ApiGateway/ # API Gateway using Ocelot
+  Dashboard.Web/ # ASP.NET MVC frontend
+  LicenseService/ # License microservice (CQRS, background jobs)
+  DocumentService/ # Document microservice
+  NotificationService/ # Notification microservice
+  DAL/ # Data Access Layer for shared entities
 ```
 
 ## Setup Instructions
